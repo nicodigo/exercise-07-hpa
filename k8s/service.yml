@@ -1,1 +1,13 @@
 # TODO: Service exposing port 8080
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-cicd-service
+spec:
+  selector:        # las mismas labels del Deployment (app: node-cicd)
+    app: node-cicd
+  ports:
+    - protocol: TCP
+      port: 8080        # puerto en el que escucha el Service
+      targetPort: 8080  # puerto del contenedor al que redirige
+  type: ClusterIP            # ClusterIP / NodePort / LoadBalancer

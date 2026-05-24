@@ -1,1 +1,19 @@
 # TODO: HorizontalPodAutoscaler targeting CPU > 50%, min 2, max 8 replicas
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: node-cicd-autoscaler
+spec:
+  scaleTargetRef:      # a qué objeto escalar
+    apiVersion: apps/v1
+    kind: Deployment
+    name: node-cicd-deployment # debe coincidir exactamente con metadata.name del Deployment
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:           # lista de métricas que disparan el escalado
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
